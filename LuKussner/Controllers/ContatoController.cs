@@ -23,9 +23,10 @@ namespace LuKussner.Controllers
             return View();
         }
 
-        public IActionResult Editar()
+        public IActionResult Editar(int id)
         {
-            return View();
+            var contato = _contatoRepositorio.BuscarPorId(id);
+            return View(contato);
         }
 
         public IActionResult ApagarConfirmacao()
@@ -39,6 +40,17 @@ namespace LuKussner.Controllers
             if (ModelState.IsValid)
             {
                 _contatoRepositorio.Adicionar(contato);
+                return RedirectToAction("Index");
+            }
+            return View(contato);
+        }
+
+        [HttpPost]
+        public IActionResult Alterar(ContatoModel contato)
+        {
+            if (ModelState.IsValid)
+            {
+                _contatoRepositorio.Alterar(contato);
                 return RedirectToAction("Index");
             }
             return View(contato);
